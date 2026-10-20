@@ -24,3 +24,26 @@ replay_pid*
 tests/output/*
 node_modules
 
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+tests/output/
+
+# Node
+npm-debug.log*
+.npm/
+
+# Environment / secrets
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
