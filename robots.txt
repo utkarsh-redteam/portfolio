@@ -3,4 +3,4 @@ Allow: /
 Disallow: /tests/
 Disallow: /todo.md
 
-Sitemap: https://aiquality.in/sitemap.xml
+Sitemap: https://utkarsh-sinha.com/sitemap.xml
