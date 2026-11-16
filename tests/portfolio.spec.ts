@@ -191,7 +191,7 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
     console.log('✓ Test 3 Passed: Contact page links verified');
   });
 
-  test('4. CV download link - Verify PDF download completes with non-zero file size', async ({ page }, testInfo) => {
+  test('4. CV download link - Verify PDF download is a valid PDF file', async ({ page }, testInfo) => {
     await page.goto(`${BASE_URL}/`, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('load');
 
@@ -206,22 +206,24 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
 
     const download = await downloadPromise;
     const suggestedName = download.suggestedFilename();
-    expect(suggestedName.toLowerCase()).toContain('.pdf');
 
-    const downloadPath = await download.path();
-    expect(downloadPath).toBeTruthy();
-
-    if (!downloadPath) {
-      throw new Error('Downloaded file path was not available');
-    }
+    // Verify the suggested filename looks like the CV (not a temp/random name)
+    expect(suggestedName).toMatch(/^UTKARSH_SINHA.*\.pdf$/i);
 
     const fullPath = testInfo.outputPath(suggestedName);
     await download.saveAs(fullPath);
 
     const fileStats = await fs.stat(fullPath);
     expect(fileStats.size).toBeGreaterThan(0);
+
+    // Verify the downloaded file is a real PDF by checking the %PDF- magic bytes
+    const fileHandle = await fs.open(fullPath, 'r');
+    const magicBuf = Buffer.alloc(5);
+    await fileHandle.read(magicBuf, 0, 5, 0);
+    await fileHandle.close();
+    expect(magicBuf.toString('ascii')).toBe('%PDF-');
     console.log(`Downloaded file full path: ${fullPath} (exists: true, ${fileStats.size} bytes)`);
 
-    console.log(`✓ Test 4 Passed: CV download verified (${suggestedName}, ${fileStats.size} bytes)`);
+    console.log(`✓ Test 4 Passed: CV is a valid PDF (${suggestedName}, ${fileStats.size} bytes)`);
   });
 });
