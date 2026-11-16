@@ -20,15 +20,15 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code */
   forbidOnly: !!process.env.CI,
   
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  /* Retry on CI; once locally to absorb headed browser crashes (reported as "flaky") */
+  retries: process.env.CI ? 2 : 1,
   
   /* Run with 3 parallel workers locally, 1 on CI */
   workers: process.env.CI ? 1 : 3,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', { outputFolder: `${runOutputRoot}/playwright-report` }],
+    ['html', { outputFolder: `${runOutputRoot}/playwright-report`, open: 'never' }],
     ['json', { outputFile: `${runOutputRoot}/playwright-results.json` }],
     ['junit', { outputFile: `${runOutputRoot}/junit-results.xml` }],
     ['list'],
@@ -82,12 +82,15 @@ export default defineConfig({
     },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /* Serve the site locally for the run (reuses one already on :8080); skipped for remote targets */
+  webServer: ['remote', 'prod', 'utkarsh-sinha.com'].includes(process.env.SITE_TARGET?.trim().toLowerCase() ?? '')
+    ? undefined
+    : {
+        command: 'python -m http.server 8080',
+        url: 'http://localhost:8080',
+        reuseExistingServer: true,
+        timeout: 30 * 1000,
+      },
 
   /* Global timeout (generous because headless: false means real browser
      windows launch under parallel worker contention, which can be slow) */
