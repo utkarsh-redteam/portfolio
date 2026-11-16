@@ -105,6 +105,10 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
       await expect(navLink).toBeVisible();
       await navLink.click();
       await page.waitForURL(`**/${link.href}`);
+      // Explicitly scroll the target section into view before asserting —
+      // mobile scroll animations can be slow and the element may not yet
+      // be in the viewport by the time waitForURL resolves.
+      await page.locator(link.sectionId).scrollIntoViewIfNeeded();
       await expect(page.locator(link.sectionId)).toBeVisible();
     }
 
