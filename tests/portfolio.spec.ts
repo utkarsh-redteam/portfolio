@@ -41,10 +41,12 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
   });
 
   test.afterEach(async ({ page }, testInfo) => {
+    // Headed Chromium can fail to capture when its window is minimized/occluded;
+    // don't fail an otherwise passing test over a diagnostic screenshot.
     await page.screenshot({
       path: testInfo.outputPath('final-screenshot.png'),
       fullPage: true,
-    });
+    }).catch((err) => console.warn(`Final screenshot skipped: ${err.message}`));
   });
 
   test('1. Home page smoke test - Verify hero content, navigation, CTAs, and resume link', async ({ page }) => {

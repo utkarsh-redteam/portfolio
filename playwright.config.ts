@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Create a timestamped folder for each test execution under tests/output
-const runTimestamp = new Date().toISOString().replace(/[:.]/g, '-');
+// Workers re-evaluate this file, so share the main process timestamp via env var
+const runTimestamp = (process.env.PW_RUN_TIMESTAMP ??= new Date().toISOString().replace(/[:.]/g, '-'));
 const runOutputRoot = `tests/output/${runTimestamp}`;
 
 /**
@@ -16,7 +17,6 @@ export default defineConfig({
   
   /* Run tests in parallel */
   fullyParallel: true,
-  headless: false,
   /* Fail the build on CI if you accidentally left test.only in the source code */
   forbidOnly: !!process.env.CI,
   
@@ -36,8 +36,11 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    /* Run browsers headed (visible windows) */
+    headless: false,
+
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://utkarsh-sinha.com',
+    baseURL: 'http://localhost:8080',
 
     /* Slow down each action by SLOWMO ms (set via env var) so headed runs are watchable. */
     launchOptions: {
