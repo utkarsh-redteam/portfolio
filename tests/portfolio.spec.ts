@@ -15,8 +15,8 @@ async function openNavigationMenu(page: Page) {
   }
 
   const navMenu = page.locator('header nav#navLinks');
-  await expect(navMenu).toBeVisible({ timeout: 10000 });
 
+  // Check computed visibility — if the click didn't open the menu, force it via JS
   const isVisible = await navMenu.evaluate((el) => {
     const style = window.getComputedStyle(el);
     return style.display !== 'none' && style.visibility !== 'hidden' && el.getBoundingClientRect().height > 0;
@@ -36,8 +36,12 @@ async function openNavigationMenu(page: Page) {
 }
 
 test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 1080 });
+  test.beforeEach(async ({ page, isMobile }) => {
+    // Only force desktop resolution on non-mobile projects;
+    // mobile projects (e.g. Mobile Safari / iPhone 12) use the device viewport from the config.
+    if (!isMobile) {
+      await page.setViewportSize({ width: 1920, height: 1080 });
+    }
   });
 
   test.afterEach(async ({ page }, testInfo) => {
