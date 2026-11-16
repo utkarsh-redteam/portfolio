@@ -84,8 +84,8 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
 
     const sectionLinks = [
       { href: '#about', sectionId: '#about' },
-      { href: '#experience', sectionId: '#experience' },
       { href: '#skills', sectionId: '#skills' },
+      { href: '#experience', sectionId: '#experience' },
       { href: '#projects', sectionId: '#projects' },
       { href: '#education', sectionId: '#education' },
       { href: '#contact', sectionId: '#contact' },
