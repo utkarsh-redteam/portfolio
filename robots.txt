@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /tests/
+Disallow: /scripts/
+Disallow: /workflows/
 Disallow: /todo.md
 Disallow: /README.md
 Disallow: /package.json
@@ -9,5 +11,8 @@ Disallow: /playwright.config.ts
 Disallow: /seo-audit-utkarsh-sinha.md
 Disallow: /seo-tracker.html
 Disallow: /MASTER TODO.md
+Disallow: /commitNpush.bat
+Disallow: /runAndPush.bat
+Disallow: /assets/applyJob.md
 
 Sitemap: https://utkarsh-sinha.com/sitemap.xml

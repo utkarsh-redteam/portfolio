@@ -83,12 +83,12 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
     await expect(navLinks).toHaveCount(8);
 
     const sectionLinks = [
-      { href: '#about', sectionId: '#about' },
-      { href: '#skills', sectionId: '#skills' },
-      { href: '#experience', sectionId: '#experience' },
-      { href: '#projects', sectionId: '#projects' },
-      { href: '#education', sectionId: '#education' },
-      { href: '#contact', sectionId: '#contact' },
+      { href: '/#about', sectionId: '#about' },
+      { href: '/#skills', sectionId: '#skills' },
+      { href: '/#experience', sectionId: '#experience' },
+      { href: '/#projects', sectionId: '#projects' },
+      { href: '/#education', sectionId: '#education' },
+      { href: '/#contact', sectionId: '#contact' },
     ];
 
     for (const link of sectionLinks) {
@@ -104,7 +104,7 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
       await navLink.scrollIntoViewIfNeeded();
       await expect(navLink).toBeVisible();
       await navLink.click();
-      await page.waitForURL(`**/${link.href}`);
+      await page.waitForURL(`**${link.href}`);
       // Explicitly scroll the target section into view before asserting —
       // mobile scroll animations can be slow and the element may not yet
       // be in the viewport by the time waitForURL resolves.
@@ -118,7 +118,7 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
     await page.waitForURL('**/#home');
     await expect(page.locator('section#home')).toBeVisible();
 
-    const getInTouchBtn = page.locator('.hero-cta a[href="#contact"].btn-primary').first();
+    const getInTouchBtn = page.locator('.hero-cta a[href="/#contact"].btn-primary').first();
     await expect(getInTouchBtn).toBeVisible();
     await getInTouchBtn.click();
     await page.waitForURL('**/#contact');
@@ -128,14 +128,14 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
     await page.goto(`${BASE_URL}/#home`, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('load');
 
-    const viewWorkBtn = page.locator('.hero-cta a[href="#projects"].btn-outline').first();
+    const viewWorkBtn = page.locator('.hero-cta a[href="/#projects"].btn-outline').first();
     await expect(viewWorkBtn).toBeVisible();
     await viewWorkBtn.click();
     await expect(page).toHaveURL(`${BASE_URL}/#projects`);
     await expect(page.locator('section#projects')).toBeVisible();
     await expect(page.locator('section#projects .section-title')).toContainText('Selected Work');
 
-    const certificatesLink = page.locator('header nav a.nav-link[href="certificates.html"]').first();
+    const certificatesLink = page.locator('header nav a.nav-link[href="/certificates.html"]').first();
     await expect(certificatesLink).toHaveCount(1);
     await expect(certificatesLink).toContainText('view certificates');
 
@@ -152,7 +152,7 @@ test.describe('Utkarsh Sinha Portfolio Website - Full Test Suite', () => {
     await page.waitForLoadState('load');
 
     await openNavigationMenu(page);
-    const certificatesLink = page.locator('header nav a.nav-link[href="certificates.html"]').first();
+    const certificatesLink = page.locator('header nav a.nav-link[href="/certificates.html"]').first();
     await expect(certificatesLink).toBeAttached();
     await certificatesLink.click();
 

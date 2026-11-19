@@ -26,12 +26,15 @@
 <meta name="twitter:title" content="Utkarsh Sinha — QA Automation Architect | AI Test Automation">
 <meta name="twitter:description" content="QA Automation Architect with 18+ years' experience. 70% automation coverage, 40% faster regression. AI-powered test generation.">
 <meta name="twitter:image" content="https://utkarsh-sinha.com/assets/og-image.png">
+<meta name="twitter:image:alt" content="Utkarsh Sinha — QA Automation Architect">
+<meta name="theme-color" content="#0a0e14">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230d1117'/%3E%3Ctext x='50' y='68' font-size='55' fill='%2358a6ff' font-family='monospace' text-anchor='middle'%3E%3E_%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/style.css">
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
@@ -78,26 +81,26 @@
 </head>
 <body>
 
-<div class="noise-overlay"></div>
+<div class="noise-overlay" aria-hidden="true"></div>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- NAV -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#home" class="logo">~/<span class="accent">utkarsh</span></a>
+    <a href="/#home" class="logo">~/<span class="accent">utkarsh</span></a>
     <nav class="nav-links" id="navLinks">
-      <a href="#about" class="nav-link">about</a>
-      <a href="#skills" class="nav-link">skills</a>
-      <a href="#experience" class="nav-link">experience</a>
-      <a href="#projects" class="nav-link">projects</a>
-      <a href="#education" class="nav-link">education</a>
-      <a href="#contact" class="nav-link">contact</a>
-      <a href="certificates.html" class="nav-link">view certificates</a>
-      <a href="assets/UTKARSH_SINHA_18_Years_AI_Expert_Technical_QA_Manager.pdf" class="nav-link" download>get resume</a>
+      <a href="/#about" class="nav-link">about</a>
+      <a href="/#skills" class="nav-link">skills</a>
+      <a href="/#experience" class="nav-link">experience</a>
+      <a href="/#projects" class="nav-link">projects</a>
+      <a href="/#education" class="nav-link">education</a>
+      <a href="/#contact" class="nav-link">contact</a>
+      <a href="/certificates.html" class="nav-link">view certificates</a>
+      <a href="/assets/UTKARSH_SINHA_18_Years_AI_Expert_Technical_QA_Manager.pdf" class="nav-link" download>get resume</a>
 
     </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -123,19 +126,19 @@
         <div class="stat"><span class="stat-num">20+</span><span class="stat-label">engineers mentored</span></div>
       </div>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">get in touch</a>
-        <a href="#projects" class="btn btn-outline">view work</a>
+        <a href="/#contact" class="btn btn-primary">get in touch</a>
+        <a href="/#projects" class="btn btn-outline">view work</a>
       </div>
     </div>
 
     <div class="hero-terminal">
       <div class="terminal-window">
         <div class="terminal-bar">
-          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="dot red" aria-hidden="true"></span><span class="dot yellow" aria-hidden="true"></span><span class="dot green" aria-hidden="true"></span>
           <span class="terminal-title">utkarsh@career: ~</span>
         </div>
         <div class="terminal-body">
-          <p><span class="prompt">$</span> cat profile.json</p>
+          <p><span class="prompt" aria-hidden="true">$</span> cat profile.json</p>
           <pre class="terminal-output"><span class="json-brace">{</span>
   <span class="json-key">"name"</span>: <span class="json-str">"Utkarsh Sinha"</span>,
   <span class="json-key">"role"</span>: <span class="json-str">"QA Automation Architect"</span>,
@@ -147,10 +150,13 @@
   <span class="json-key">"current"</span>: <span class="json-str">"Fidelity International"</span>,
   <span class="json-key">"status"</span>: <span class="json-str">"open_to_opportunities"</span>
 <span class="json-brace">}</span></pre>
-          <p class="blink-line"><span class="prompt">$</span> <span class="cursor">_</span></p>
+          <p class="blink-line"><span class="prompt" aria-hidden="true">$</span> <span class="cursor" aria-hidden="true">_</span></p>
         </div>
       </div>
-      <img src="assets/profile.jpg" alt="Utkarsh Sinha" class="profile-photo" width="96" height="96" fetchpriority="high">
+      <picture class="profile-frame">
+        <source type="image/webp" srcset="/assets/profile-96.webp 96w, /assets/profile-192.webp 192w, /assets/profile-288.webp 288w" sizes="96px">
+        <img src="/assets/profile-192.jpg" alt="Utkarsh Sinha" class="profile-photo" width="96" height="96" fetchpriority="high" decoding="async">
+      </picture>
     </div>
   </div>
 </section>
@@ -179,27 +185,27 @@
 
     <div class="achievements-grid">
       <div class="achievement-card">
-        <span class="ach-icon">▲</span>
+        <span class="ach-icon" aria-hidden="true">▲</span>
         <p>Reduced regression testing cycle time by <strong>40%</strong> through strategic automation and CI/CD integration at Fidelity International</p>
       </div>
       <div class="achievement-card">
-        <span class="ach-icon">◆</span>
+        <span class="ach-icon" aria-hidden="true">◆</span>
         <p>Implemented a QA Agent (LangGraph + LiteLLM) to auto-write manual &amp; Playwright scripts running on the SIT environment</p>
       </div>
       <div class="achievement-card">
-        <span class="ach-icon">✓</span>
+        <span class="ach-icon" aria-hidden="true">✓</span>
         <p>Achieved <strong>70% automation coverage</strong> across enterprise applications, improving release velocity and quality</p>
       </div>
       <div class="achievement-card">
-        <span class="ach-icon">◇</span>
+        <span class="ach-icon" aria-hidden="true">◇</span>
         <p>Built <strong>3 end-to-end automation frameworks</strong> from scratch spanning Web, API, Database, and ETL testing</p>
       </div>
       <div class="achievement-card">
-        <span class="ach-icon">■</span>
+        <span class="ach-icon" aria-hidden="true">■</span>
         <p>Led bi-weekly production releases with <strong>99.5% stability</strong> and zero critical defects in production</p>
       </div>
       <div class="achievement-card">
-        <span class="ach-icon">★</span>
+        <span class="ach-icon" aria-hidden="true">★</span>
         <p>Mentored and upskilled <strong>20+ QA professionals</strong> across my career, fostering a high-performance testing culture</p>
       </div>
     </div>
@@ -285,7 +291,7 @@
     <div class="timeline">
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">04/2020 — Present · Gurgaon, India</p>
           <h3 class="tl-role">Manager – Program Manager (Release &amp; Automation)</h3>
@@ -303,7 +309,7 @@
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">09/2018 — 04/2020 · Pune, India</p>
           <h3 class="tl-role">Test Architect</h3>
@@ -320,7 +326,7 @@
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">08/2015 — 09/2018 · Pune, India</p>
           <h3 class="tl-role">Principal QA Engineer</h3>
@@ -337,7 +343,7 @@
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">10/2013 — 08/2015 · Pune, India</p>
           <h3 class="tl-role">Sr. Technical Associate</h3>
@@ -351,7 +357,7 @@
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">07/2010 — 10/2013 · Pune, India</p>
           <h3 class="tl-role">Sr. QA Engineer</h3>
@@ -365,7 +371,7 @@
       </div>
 
       <div class="timeline-item">
-        <div class="timeline-dot"></div>
+        <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-content">
           <p class="tl-date">06/2007 — 07/2010 · Pune, India</p>
           <h3 class="tl-role">QC Engineer</h3>
@@ -391,56 +397,62 @@
     <div class="projects-grid">
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">ai_test_generator.py</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">ai_test_generator.py</span>
         </div>
-        <h3>AI-Powered Test Case Generation Platform</h3>
+        <h3><a href="/work/ai-test-case-generation.html">AI-Powered Test Case Generation Platform</a></h3>
         <p>NLP + PyTorch + GPT-4.1 platform that auto-generates test cases from requirements, cutting manual test-design effort by 70% at Fidelity International.</p>
         <div class="tags"><span class="tag tag-sm">NLP</span><span class="tag tag-sm">PyTorch</span><span class="tag tag-sm">GPT-4.1</span></div>
+        <a class="project-more" href="/work/ai-test-case-generation.html">case study</a>
       </div>
 
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">qa_agent.py</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">qa_agent.py</span>
         </div>
-        <h3>QA Agent — LangGraph &amp; LiteLLM</h3>
+        <h3><a href="/work/qa-agent-langgraph.html">QA Agent — LangGraph &amp; LiteLLM</a></h3>
         <p>Multi-agent orchestration that auto-writes manual and Playwright test scripts, executed automatically against the SIT environment.</p>
         <div class="tags"><span class="tag tag-sm">LangGraph</span><span class="tag tag-sm">LiteLLM</span><span class="tag tag-sm">Playwright</span></div>
+        <a class="project-more" href="/work/qa-agent-langgraph.html">case study</a>
       </div>
 
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">rag_pipeline.py</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">rag_pipeline.py</span>
         </div>
-        <h3>RAG &amp; MCP-Based Tool Integration</h3>
+        <h3><a href="/work/rag-mcp-tool-integration.html">RAG &amp; MCP-Based Tool Integration</a></h3>
         <p>Retrieval-augmented generation pipelines with vector search (Pinecone, ChromaDB, FAISS) and MCP-based tool integration extending AI test automation across product lines.</p>
         <div class="tags"><span class="tag tag-sm">RAG</span><span class="tag tag-sm">MCP</span><span class="tag tag-sm">Vector DBs</span></div>
+        <a class="project-more" href="/work/rag-mcp-tool-integration.html">case study</a>
       </div>
 
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">etl_framework.java</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">etl_framework.java</span>
         </div>
-        <h3>Big Data / ETL Automation Framework</h3>
+        <h3><a href="/work/etl-automation-framework.html">Big Data / ETL Automation Framework</a></h3>
         <p>Spring Boot + JUnit framework for ETL testing on a Big Data Supply Chain Analytics platform — schema validation, data integrity checks, and Power BI report validation across Azure, NiFi &amp; Hive.</p>
         <div class="tags"><span class="tag tag-sm">Azure</span><span class="tag tag-sm">NiFi</span><span class="tag tag-sm">Power BI</span></div>
+        <a class="project-more" href="/work/etl-automation-framework.html">case study</a>
       </div>
 
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">data_generator.py</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">data_generator.py</span>
         </div>
-        <h3>Custom Test Data Generation Tool</h3>
+        <h3><a href="/work/test-data-generation.html">Custom Test Data Generation Tool</a></h3>
         <p>Configurable engine that produces realistic datasets to support functional, performance, and load testing scenarios at scale.</p>
         <div class="tags"><span class="tag tag-sm">Python</span><span class="tag tag-sm">Data Engineering</span></div>
+        <a class="project-more" href="/work/test-data-generation.html">case study</a>
       </div>
 
       <div class="project-card">
         <div class="project-card-head">
-          <span class="prompt">$</span><span class="project-file">ai_recruit.ipynb</span>
+          <span class="prompt" aria-hidden="true">$</span><span class="project-file">ai_recruit.ipynb</span>
         </div>
-        <h3>AI Recruit — Fair Candidate Matching</h3>
+        <h3><a href="/work/ai-recruit.html">AI Recruit — Fair Candidate Matching</a></h3>
         <p>Academic capstone (UT Austin): modular system for NLP resume parsing, candidate-job matching with fairness constraints and explainable AI, plus an ensemble-model engagement forecaster reaching R² of 77.9%.</p>
         <div class="tags"><span class="tag tag-sm">NLP</span><span class="tag tag-sm">Explainable AI</span><span class="tag tag-sm">Regression</span></div>
+        <a class="project-more" href="/work/ai-recruit.html">case study</a>
       </div>
     </div>
   </div>
@@ -510,7 +522,7 @@
         <span class="contact-label">// linkedin</span>
         <span class="contact-value">linkedin.com/in/utkarsh-sinha-automation</span>
       </a>
-      <a class="contact-card" href="assets/UTKARSH_SINHA_18_Years_AI_Expert_Technical_QA_Manager.pdf" download>
+      <a class="contact-card" href="/assets/UTKARSH_SINHA_18_Years_AI_Expert_Technical_QA_Manager.pdf" download>
         <span class="contact-label">// resume</span>
         <span class="contact-value">download CV</span>
       </a>
@@ -527,6 +539,6 @@
 </footer>
 </main>
 
-<script src="script.js" defer></script>
+<script src="/script.js" defer></script>
 </body>
 </html>
