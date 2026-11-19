@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit Tracker — utkarsh-sinha.com</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0a0e14;
+    --bg-alt: #0d1219;
+    --surface: #10161f;
+    --surface-2: #131a24;
+    --border: #1e2731;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --text-muted: #5c6773;
+    --accent: #58a6ff;
+    --accent-2: #39d353;
+    --accent-3: #f0883e;
+    --red: #f85149;
+    --purple: #d2a8ff;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .noise-overlay {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(88,166,255,0.06), transparent 40%),
+                       radial-gradient(circle at 80% 70%, rgba(57,211,83,0.05), transparent 40%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    padding: 40px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header h1 {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 700;
+  }
+  .header h1 .accent { color: var(--accent); }
+  .header .subtitle {
+    font-family: var(--mono);
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+  .last-updated {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--surface);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .stat-card.total .num { color: var(--text); }
+  .stat-card.done .num { color: var(--accent-2); }
+  .stat-card.progress .num { color: var(--accent); }
+  .stat-card.pending .num { color: var(--text-muted); }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 36px;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-header span {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .progress-bar {
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #05070a; border-color: var(--accent); font-weight: 600; }
+
+  /* Priority sections */
+  .priority-section {
+    margin-bottom: 36px;
+  }
+  .priority-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .priority-badge {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .priority-badge.critical { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+  .priority-badge.high { background: rgba(240,136,62,0.15); color: var(--accent-3); border: 1px solid rgba(240,136,62,0.3); }
+  .priority-badge.medium { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+  .priority-badge.low { background: rgba(210,168,255,0.15); color: var(--purple); border: 1px solid rgba(210,168,255,0.3); }
+
+  .priority-count {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* Task cards */
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .task-card:hover { border-color: var(--accent); transform: translateX(2px); }
+  .task-card.done { opacity: 0.5; }
+  .task-card.done .task-title { text-decoration: line-through; }
+
+  .task-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+  .task-card.done .task-check {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+    color: #05070a;
+  }
+  .task-card.in-progress .task-check {
+    border-color: var(--accent);
+    color: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(88,166,255,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(88,166,255,0); }
+  }
+
+  .task-info { min-width: 0; }
+  .task-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .task-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .effort-badge, .status-badge {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .effort-badge.low { background: rgba(57,211,83,0.12); color: var(--accent-2); border: 1px solid rgba(57,211,83,0.25); }
+  .effort-badge.medium { background: rgba(88,166,255,0.12); color: var(--accent); border: 1px solid rgba(88,166,255,0.25); }
+  .effort-badge.high { background: rgba(240,136,62,0.12); color: var(--accent-3); border: 1px solid rgba(240,136,62,0.25); }
+
+  .status-badge.pending { background: rgba(92,103,115,0.2); color: var(--text-muted); border: 1px solid var(--border); }
+  .status-badge.in-progress { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+  .status-badge.done { background: rgba(57,211,83,0.15); color: var(--accent-2); border: 1px solid rgba(57,211,83,0.3); }
+
+  /* Footer */
+  .tracker-footer {
+    text-align: center;
+    padding: 28px 24px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .legend-dot.done-dot { background: var(--accent-2); }
+  .legend-dot.progress-dot { background: var(--accent); }
+  .legend-dot.pending-dot { background: var(--text-muted); }
+
+  @media (max-width: 768px) {
+    .task-card { grid-template-columns: 28px 1fr; gap: 10px; }
+    .effort-badge, .status-badge { grid-column: 2; justify-self: start; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <h1>~/seo-audit/<span class="accent">tracker</span></h1>
+        <p class="subtitle">utkarsh-sinha.com · Technical SEO Audit Progress</p>
+      </div>
+      <span class="last-updated" id="lastUpdated">last updated: loading...</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-card total"><div class="num" id="totalCount">0</div><div class="label">Total Tasks</div></div>
+    <div class="stat-card done"><div class="num" id="doneCount">0</div><div class="label">Completed</div></div>
+    <div class="stat-card progress"><div class="num" id="progressCount">0</div><div class="label">In Progress</div></div>
+    <div class="stat-card pending"><div class="num" id="pendingCount">0</div><div class="label">Pending</div></div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span>Overall Progress</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot done-dot"></div> Done</div>
+    <div class="legend-item"><div class="legend-dot progress-dot"></div> In Progress</div>
+    <div class="legend-item"><div class="legend-dot pending-dot"></div> Pending</div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">all</button>
+    <button class="filter-btn" data-filter="pending">pending</button>
+    <button class="filter-btn" data-filter="in-progress">in progress</button>
+    <button class="filter-btn" data-filter="done">done</button>
+  </div>
+
+  <!-- Tasks -->
+  <div id="tasksContainer"></div>
+
+  <footer class="tracker-footer">
+    SEO Audit Tracker · Auto-refreshes every 3 seconds
+  </footer>
+</div>
+
+<script>
+  // Task data — will be updated by the agent
+  const tasks = [
+    // === CRITICAL ===
+    {
+      id: "C1",
+      priority: "critical",
+      title: "Block dev/source files from crawlers",
+      desc: "README.md, package.json, package-lock.json, playwright.config.ts are live (200) and not in robots.txt. They can compete with the homepage for name/role queries.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "C2",
+      priority: "critical",
+      title: "Add Open Graph & Twitter card meta tags",
+      desc: "Both HTML pages have zero og:*/twitter:* tags. /assets/og-image.png is 404. Social shares show unbranded previews.",
+      effort: "medium",
+      status: "done"
+    },
+    {
+      id: "C3",
+      priority: "critical",
+      title: "Add JSON-LD structured data (Person, WebSite, ProfilePage)",
+      desc: "Zero application/ld+json blocks on either page. Google has no explicit Person/ProfilePage/WebSite graph or sameAs links.",
+      effort: "medium",
+      status: "done"
+    },
+
+    // === HIGH ===
+    {
+      id: "H1",
+      priority: "high",
+      title: "Verify Google Search Console & Bing Webmaster",
+      desc: "No google-site-verification meta or DNS TXT. GSC and Bing registration still marked unchecked in /todo.md.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "H2",
+      priority: "high",
+      title: "Fix render-blocking Google Fonts (LCP 3.8s)",
+      desc: "Fonts CSS is render-blocking (~1,810ms savings). script.js has no defer. LCP element is p.hero-desc with 78% render delay.",
+      effort: "medium",
+      status: "done"
+    },
+    {
+      id: "H3",
+      priority: "high",
+      title: "Rebuild certificates.html as a proper page",
+      desc: "No meta description, no h1, only 24 visible words, generic image alts, 1.58 MiB images, typo folder name, spaces in filenames.",
+      effort: "high",
+      status: "done"
+    },
+    {
+      id: "H4",
+      priority: "high",
+      title: "Add crawlable internal links & case-study pages",
+      desc: "Nav is hash-only. 6 project cards have no hrefs. /blog is 404. No URLs for specific AI/QA topics.",
+      effort: "high",
+      status: "pending"
+    },
+    {
+      id: "H5",
+      priority: "high",
+      title: "Fix hero image (lazy, oversized, JPEG-only)",
+      desc: "profile.jpg is 600×600 displayed at ~96×96 with loading='lazy' and Low priority. No width/height or srcset.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "H6",
+      priority: "high",
+      title: "Tighten homepage title & meta description",
+      desc: "Title is 78 chars (will truncate). Description is 177 chars. Both should be shorter with key proof points.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "H7",
+      priority: "high",
+      title: "Fix résumé PDF metadata",
+      desc: "PDF Title = 'Utkarsh Sinha 18 years Test Architect' (mismatches site role). Producer = Enhancv promotional text.",
+      effort: "medium",
+      status: "pending"
+    },
+
+    // === MEDIUM ===
+    {
+      id: "M1",
+      priority: "medium",
+      title: "Update sitemap lastmod dates",
+      desc: "Sitemap lastmod is 2026-10-18, stale vs the 16 Nov 2026 Last-Modified header.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M2",
+      priority: "medium",
+      title: "Fix duplicate 200 URLs (/index.html vs /)",
+      desc: "/index.html = /; /certificates = /certificates.html. Canonicals present but no redirects. Nav uses index.html hrefs.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M3",
+      priority: "medium",
+      title: "Fix heading hierarchy & add <main> landmark",
+      desc: "Heading skip: h2 → h4 on cert cards. Homepage has no <main>. certificates.html does have <main>.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M4",
+      priority: "medium",
+      title: "Fix contrast failures on muted text",
+      desc: "--text-muted (#5c6773) on --bg (#0a0e14) is 3.35:1 (needs 4.5:1). Affects stat labels, terminal title, dates, footer.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M5",
+      priority: "medium",
+      title: "Fix accessibility: skip link, focus-visible, aria-expanded, lightbox",
+      desc: "No skip link, no :focus-visible, navToggle missing aria-expanded, lightbox has no role='dialog' or Escape handler.",
+      effort: "medium",
+      status: "done"
+    },
+    {
+      id: "M6",
+      priority: "medium",
+      title: "Improve cache with CDN (Cloudflare)",
+      desc: "max-age=600 on all assets. ~35 KiB wasted on revisit. GitHub Pages can't set long cache headers.",
+      effort: "high",
+      status: "pending"
+    },
+    {
+      id: "M7",
+      priority: "medium",
+      title: "Add real favicon, apple-touch-icon, manifest",
+      desc: "/favicon.ico and /apple-touch-icon.png are 404. Data-URI SVG works in modern browsers on homepage only.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M8",
+      priority: "medium",
+      title: "Add GitHub profile link in contact & sameAs",
+      desc: "Contact lists LinkedIn but not GitHub. 'GitHub' appears only as a skill tag. No sameAs for GitHub.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "M9",
+      priority: "medium",
+      title: "Add IPv6 (AAAA) records for apex domain",
+      desc: "Apex has no AAAA records; utkarsh-redteam.github.io does. IPv6-only clients may have issues.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "M10",
+      priority: "medium",
+      title: "Remove /todo.md from published branch",
+      desc: "Public /todo.md still treats aiquality.in as this site. aiquality.in returns 200 as a different site.",
+      effort: "low",
+      status: "pending"
+    },
+
+    // === LOW ===
+    {
+      id: "L1",
+      priority: "low",
+      title: "/404 and /404.html return HTTP 200",
+      desc: "Harmless since already noindex. Avoid linking to them.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L2",
+      priority: "low",
+      title: "Consider adding role to <h1>",
+      desc: "h1 is name-only; role is in h2. Optional: compose them in one heading.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L3",
+      priority: "low",
+      title: "Add theme-color, web manifest, llms.txt, security.txt",
+      desc: "None required for SEO. Nice-to-have for mobile branding.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L4",
+      priority: "low",
+      title: "Add author/robots meta tags",
+      desc: "Optional: <meta name='author'> and explicit index,follow on indexable pages.",
+      effort: "low",
+      status: "done"
+    },
+    {
+      id: "L5",
+      priority: "low",
+      title: "Consider lang='en-IN' instead of lang='en'",
+      desc: "Acceptable as-is. Only change if regional signal is desired.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L6",
+      priority: "low",
+      title: "Add security headers (HSTS, CSP, X-Content-Type-Options)",
+      desc: "GitHub Pages default; not an indexing issue. Add if CDN is in front.",
+      effort: "medium",
+      status: "pending"
+    },
+    {
+      id: "L7",
+      priority: "low",
+      title: "Review public phone number & open_to_opportunities",
+      desc: "Not an SEO defect. Decide if you want that crawlable.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L8",
+      priority: "low",
+      title: "Add B.E. graduation year",
+      desc: "Still missing per /todo.md. Add for completeness.",
+      effort: "low",
+      status: "pending"
+    },
+    {
+      id: "L9",
+      priority: "low",
+      title: "Lighthouse SEO 100 caveat",
+      desc: "Score can be misleading. Use GSC and this issue list as source of truth.",
+      effort: "low",
+      status: "pending"
+    }
+  ];
+
+  function render(filter = 'all') {
+    const container = document.getElementById('tasksContainer');
+    container.innerHTML = '';
+
+    const priorities = ['critical', 'high', 'medium', 'low'];
+    const priorityLabels = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
+
+    let totalCount = 0, doneCount = 0, progressCount = 0, pendingCount = 0;
+    tasks.forEach(t => {
+      totalCount++;
+      if (t.status === 'done') doneCount++;
+      else if (t.status === 'in-progress') progressCount++;
+      else pendingCount++;
+    });
+
+    document.getElementById('totalCount').textContent = totalCount;
+    document.getElementById('doneCount').textContent = doneCount;
+    document.getElementById('progressCount').textContent = progressCount;
+    document.getElementById('pendingCount').textContent = pendingCount;
+
+    const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+
+    priorities.forEach(p => {
+      let filtered = tasks.filter(t => t.priority === p);
+      if (filter !== 'all') filtered = filtered.filter(t => t.status === filter);
+      if (filtered.length === 0) return;
+
+      const section = document.createElement('div');
+      section.className = 'priority-section';
+
+      const totalInPriority = tasks.filter(t => t.priority === p).length;
+      const doneInPriority = tasks.filter(t => t.priority === p && t.status === 'done').length;
+
+      section.innerHTML = `
+        <div class="priority-header">
+          <span class="priority-badge ${p}">${priorityLabels[p]}</span>
+          <span class="priority-count">${doneInPriority}/${totalInPriority} complete</span>
+        </div>
+        <div class="task-list" id="list-${p}"></div>
+      `;
+      container.appendChild(section);
+
+      const list = section.querySelector('.task-list');
+      filtered.forEach(t => {
+        const card = document.createElement('div');
+        card.className = `task-card ${t.status === 'done' ? 'done' : ''} ${t.status === 'in-progress' ? 'in-progress' : ''}`;
+        card.innerHTML = `
+          <div class="task-check">${t.status === 'done' ? '✓' : t.status === 'in-progress' ? '◎' : ''}</div>
+          <div class="task-info">
+            <div class="task-title">[${t.id}] ${t.title}</div>
+            <div class="task-desc">${t.desc}</div>
+          </div>
+          <span class="effort-badge ${t.effort}">${t.effort} effort</span>
+          <span class="status-badge ${t.status}">${t.status.replace('-', ' ')}</span>
+        `;
+        list.appendChild(card);
+      });
+    });
+  }
+
+  // Filters
+  document.getElementById('filters').addEventListener('click', e => {
+    if (!e.target.classList.contains('filter-btn')) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    render(e.target.dataset.filter);
+  });
+
+  // Auto-refresh
+  let currentFilter = 'all';
+  async function refresh() {
+    try {
+      const resp = await fetch('seo-tracker.html?_=' + Date.now());
+      const text = await resp.text();
+      const match = text.match(/const tasks = (\[[\s\S]*?\]);/);
+      if (match) {
+        const newTasks = eval(match[1]);
+        tasks.length = 0;
+        tasks.push(...newTasks);
+        const activeBtn = document.querySelector('.filter-btn.active');
+        currentFilter = activeBtn ? activeBtn.dataset.filter : 'all';
+        render(currentFilter);
+        document.getElementById('lastUpdated').textContent = 'last updated: ' + new Date().toLocaleTimeString();
+      }
+    } catch(e) {}
+  }
+
+  setInterval(refresh, 3000);
+
+  // Initial render
+  document.getElementById('lastUpdated').textContent = 'last updated: ' + new Date().toLocaleTimeString();
+  render();
+</script>
+</body>
+</html>

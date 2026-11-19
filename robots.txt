@@ -2,5 +2,12 @@ User-agent: *
 Allow: /
 Disallow: /tests/
 Disallow: /todo.md
+Disallow: /README.md
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /playwright.config.ts
+Disallow: /seo-audit-utkarsh-sinha.md
+Disallow: /seo-tracker.html
+Disallow: /MASTER TODO.md
 
 Sitemap: https://utkarsh-sinha.com/sitemap.xml
