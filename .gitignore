@@ -32,6 +32,9 @@ node_modules
 /playwright/.cache/
 tests/output/
 
+# GitHub Pages publish directory (assembled by scripts/assemble-site.sh)
+_site/
+
 # Node
 npm-debug.log*
 .npm/
@@ -47,3 +50,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+__pycache__/
+*.pyc

@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>SEO Audit Tracker — utkarsh-sinha.com</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
-
   :root {
     --bg: #0a0e14;
     --bg-alt: #0d1219;
@@ -384,7 +383,7 @@
       id: "C1",
       priority: "critical",
       title: "Block dev/source files from crawlers",
-      desc: "README.md, package.json, package-lock.json, playwright.config.ts are live (200) and not in robots.txt. They can compete with the homepage for name/role queries.",
+      desc: "GitHub Actions workflow publishes an allow-list and leaves README, package files, Playwright config, tests, todo files, audits, the tracker, and bat files in the repo only. robots.txt Disallow stays as a backstop. The live site keeps serving the whole branch until Pages source is switched to GitHub Actions.",
       effort: "low",
       status: "done"
     },
@@ -392,7 +391,7 @@
       id: "C2",
       priority: "critical",
       title: "Add Open Graph & Twitter card meta tags",
-      desc: "Both HTML pages have zero og:*/twitter:* tags. /assets/og-image.png is 404. Social shares show unbranded previews.",
+      desc: "Homepage, certificates, and case-study pages have og and twitter tags. /assets/og-image.png is a real 1200x627 image.",
       effort: "medium",
       status: "done"
     },
@@ -400,7 +399,7 @@
       id: "C3",
       priority: "critical",
       title: "Add JSON-LD structured data (Person, WebSite, ProfilePage)",
-      desc: "Zero application/ld+json blocks on either page. Google has no explicit Person/ProfilePage/WebSite graph or sameAs links.",
+      desc: "Homepage still has the Person/WebSite/ProfilePage graph. certificates.html now has WebPage, Person, and an ItemList of the five scanned credentials. Case-study pages have WebPage and Person.",
       effort: "medium",
       status: "done"
     },
@@ -418,7 +417,7 @@
       id: "H2",
       priority: "high",
       title: "Fix render-blocking Google Fonts (LCP 3.8s)",
-      desc: "Fonts CSS is render-blocking (~1,810ms savings). script.js has no defer. LCP element is p.hero-desc with 78% render delay.",
+      desc: "Google Fonts removed. Latin woff2 subsets are self-hosted with font-display: swap, and the weights used above the fold are preloaded. script.js is deferred on the homepage and certificates page.",
       effort: "medium",
       status: "done"
     },
@@ -426,7 +425,7 @@
       id: "H3",
       priority: "high",
       title: "Rebuild certificates.html as a proper page",
-      desc: "No meta description, no h1, only 24 visible words, generic image alts, 1.58 MiB images, typo folder name, spaces in filenames.",
+      desc: "certificates.html has an intro, per-document name/issuer/date taken from the scans, descriptive alts, JSON-LD, social tags, favicon, author/robots, and a deferred script. Images are WebP under assets/certificates/ with no spaces in the filenames. The misspelled certfificates folder is gone.",
       effort: "high",
       status: "done"
     },
@@ -434,15 +433,15 @@
       id: "H4",
       priority: "high",
       title: "Add crawlable internal links & case-study pages",
-      desc: "Nav is hash-only. 6 project cards have no hrefs. /blog is 404. No URLs for specific AI/QA topics.",
+      desc: "Each of the six project cards links to a case-study URL built only from text already on the site, and those URLs are in the sitemap. No blog was added because the repo has no posts. In-page nav anchors remain for the single-page sections.",
       effort: "high",
-      status: "pending"
+      status: "done"
     },
     {
       id: "H5",
       priority: "high",
       title: "Fix hero image (lazy, oversized, JPEG-only)",
-      desc: "profile.jpg is 600×600 displayed at ~96×96 with loading='lazy' and Low priority. No width/height or srcset.",
+      desc: "Hero photo is a picture/srcset of 96/192/288 WebP plus a 192px JPEG fallback, with width, height, and fetchpriority=high. The original 600x600 profile.jpg remains for structured data.",
       effort: "low",
       status: "done"
     },
@@ -458,9 +457,9 @@
       id: "H7",
       priority: "high",
       title: "Fix résumé PDF metadata",
-      desc: "PDF Title = 'Utkarsh Sinha 18 years Test Architect' (mismatches site role). Producer = Enhancv promotional text.",
+      desc: "Resume PDF at the same URL now has Title, Author, Subject, and Keywords containing the role line QA Automation Architect | AI-Driven Quality Engineering Leader. Enhancv Creator/Producer and the embedded ecv-data blob were removed. Page content streams were checked unchanged and the file was recompressed.",
       effort: "medium",
-      status: "pending"
+      status: "done"
     },
 
     // === MEDIUM ===
@@ -476,9 +475,9 @@
       id: "M2",
       priority: "medium",
       title: "Fix duplicate 200 URLs (/index.html vs /)",
-      desc: "/index.html = /; /certificates = /certificates.html. Canonicals present but no redirects. Nav uses index.html hrefs.",
+      desc: "Internal links now use canonical /#section, /, and /certificates.html. GitHub Pages still returns 200 for /index.html and /certificates with the same body. A 301 needs a CDN (see M6).",
       effort: "low",
-      status: "done"
+      status: "in-progress"
     },
     {
       id: "M3",
@@ -500,7 +499,7 @@
       id: "M5",
       priority: "medium",
       title: "Fix accessibility: skip link, focus-visible, aria-expanded, lightbox",
-      desc: "No skip link, no :focus-visible, navToggle missing aria-expanded, lightbox has no role='dialog' or Escape handler.",
+      desc: "Skip link, focus-visible, and aria-expanded were already in place. The certificate lightbox is a dialog with a focus trap, Escape to close, and focus returned to the thumbnail button. Decorative icons and prompts are aria-hidden.",
       effort: "medium",
       status: "done"
     },
@@ -516,7 +515,7 @@
       id: "M7",
       priority: "medium",
       title: "Add real favicon, apple-touch-icon, manifest",
-      desc: "/favicon.ico and /apple-touch-icon.png are 404. Data-URI SVG works in modern browsers on homepage only.",
+      desc: "favicon.ico, favicon.svg, apple-touch-icon.png, a web manifest, and theme-color are linked from the homepage, certificates, case studies, and the 404 page.",
       effort: "low",
       status: "done"
     },
@@ -540,9 +539,9 @@
       id: "M10",
       priority: "medium",
       title: "Remove /todo.md from published branch",
-      desc: "Public /todo.md still treats aiquality.in as this site. aiquality.in returns 200 as a different site.",
+      desc: "todo.md stays in the repo for the owner and is excluded from the Pages allow-list, with robots.txt Disallow as a backstop. Pointing aiquality.in at this domain is a DNS change outside the repo.",
       effort: "low",
-      status: "pending"
+      status: "done"
     },
 
     // === LOW ===
@@ -550,7 +549,7 @@
       id: "L1",
       priority: "low",
       title: "/404 and /404.html return HTTP 200",
-      desc: "Harmless since already noindex. Avoid linking to them.",
+      desc: "Not removable on GitHub Pages while keeping the custom 404: requesting /404 or /404.html returns the file with HTTP 200. Unknown URLs still 404, and the template stays noindex. A CDN could 404 those two paths.",
       effort: "low",
       status: "pending"
     },
@@ -566,15 +565,15 @@
       id: "L3",
       priority: "low",
       title: "Add theme-color, web manifest, llms.txt, security.txt",
-      desc: "None required for SEO. Nice-to-have for mobile branding.",
+      desc: "theme-color, site.webmanifest, /llms.txt, and /.well-known/security.txt are in the published set.",
       effort: "low",
-      status: "pending"
+      status: "done"
     },
     {
       id: "L4",
       priority: "low",
       title: "Add author/robots meta tags",
-      desc: "Optional: <meta name='author'> and explicit index,follow on indexable pages.",
+      desc: "author and index,follow robots meta are on the homepage, certificates page, and case-study pages. The 404 page stays noindex.",
       effort: "low",
       status: "done"
     },

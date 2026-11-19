@@ -1,0 +1,23 @@
+# Utkarsh Sinha
+
+> QA Automation Architect and AI-Driven Quality Engineering Leader. Portfolio: https://utkarsh-sinha.com/
+
+Utkarsh Sinha is a QA Automation Architect based in Gurgaon, Haryana, India. The site describes 18+ years in enterprise testing across BFSI, healthcare, e-commerce, and supply chain. The current role listed on the site is Manager – Program Manager (Release & Automation) at Fidelity International.
+
+## Pages
+
+- [Home](https://utkarsh-sinha.com/): profile, experience, selected work, education, and contact
+- [Certificates](https://utkarsh-sinha.com/certificates.html): scans of certificates and training diplomas
+- [AI-Powered Test Case Generation Platform](https://utkarsh-sinha.com/work/ai-test-case-generation.html)
+- [QA Agent — LangGraph & LiteLLM](https://utkarsh-sinha.com/work/qa-agent-langgraph.html)
+- [RAG & MCP-Based Tool Integration](https://utkarsh-sinha.com/work/rag-mcp-tool-integration.html)
+- [Big Data / ETL Automation Framework](https://utkarsh-sinha.com/work/etl-automation-framework.html)
+- [Custom Test Data Generation Tool](https://utkarsh-sinha.com/work/test-data-generation.html)
+- [AI Recruit — Fair Candidate Matching](https://utkarsh-sinha.com/work/ai-recruit.html)
+- [Resume (PDF)](https://utkarsh-sinha.com/assets/UTKARSH_SINHA_18_Years_AI_Expert_Technical_QA_Manager.pdf)
+
+## Contact
+
+- Email: utkarsh.sinha.tech@gmail.com
+- LinkedIn: https://linkedin.com/in/utkarsh-sinha-automation
+- GitHub: https://github.com/utkarsh-redteam
