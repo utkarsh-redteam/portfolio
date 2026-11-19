@@ -2,8 +2,8 @@
 setlocal EnableExtensions
 
 REM Run Playwright tests against the local site; with --push, commit and push if everything passes.
-REM Usage: runAndPush.bat [--push] [playwright args]
-REM Example: runAndPush.bat --project=chromium -g "CV download link"
+REM Usage: runAndPush.bat [--push] [--headed] [playwright args]
+REM Example: runAndPush.bat --headed --project=chromium -g "CV download link"
 cd /d "%~dp0"
 set "SITE_TARGET=local"
 if not defined SLOWMO set "SLOWMO=0"
@@ -26,7 +26,7 @@ goto :parse_args
 
 REM playwright.config.ts webServer starts the local site (or reuses one on :8080).
 echo Running Playwright tests with SITE_TARGET=%SITE_TARGET% (SLOWMO=%SLOWMO%ms, WORKERS=%WORKERS%, PUSH=%DO_PUSH%)...
-call npx playwright test --headed --workers=%WORKERS%%PW_ARGS%
+call npx playwright test --workers=%WORKERS%%PW_ARGS%
 if errorlevel 1 (
     echo.
     echo Tests failed - not pushing.

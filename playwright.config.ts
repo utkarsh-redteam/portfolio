@@ -36,8 +36,8 @@ export default defineConfig({
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Run browsers headed (visible windows) */
-    headless: false,
+    /* Run browsers headless by default; override with CLI flag --headed */
+    headless: true,
 
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:8080',
